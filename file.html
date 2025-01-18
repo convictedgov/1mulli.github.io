@@ -10,7 +10,7 @@
         body, html {
             font-family: 'Albert Sans', sans-serif;
             font-weight: bold;
-            background: linear-gradient(to bottom, #0066cc, #00ccff);
+            background: linear-gradient(to bottom, #800000, #000000); /* Changed gradient to dark red and black */
             color: #e0e0e0;
             margin: 0;
             padding: 0;
@@ -20,7 +20,7 @@
             align-items: center;
         }
         nav {
-            background: linear-gradient(to right, #004080, #0099ff);
+            background: linear-gradient(to right, #800000, #800000); /* Changed gradient to dark red and black */
             color: #fff;
             width: 90%;
             padding: 10px;
@@ -28,16 +28,16 @@
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
+            z-index: 2000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
+            box-shadow: 0 22px 22px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
         }
         nav img {
             height: 40px;
-            margin-right: 10px;
+            margin-right: 20px;
         }
         nav div {
             display: flex;
@@ -56,7 +56,7 @@
             background-color: #333;
         }
         .container {
-            background: linear-gradient(to bottom, #004080, #0099ff);
+            background: linear-gradient(to bottom, #800000, #000000); /* Changed gradient to dark red and black */
             margin: 100px 20px 20px;
             max-width: 6000%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
@@ -69,19 +69,20 @@
             position: relative; /* Add position relative for overlaying iframe */
         }
         #home {
-            background: linear-gradient(to bottom, #004080, #0099ff);
+            background: linear-gradient(to bottom, #800000, #000000); /* Changed gradient to dark red and black */
             margin: 100px 20px 20px;
             max-width: 300%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
+            box-shadow: 0 px px rgba(0, 0, 0, 0.5);
+            border-radius: 25px;
             width: 234%;
             flex-grow: 1;
             text-align: center;
             color: #fff;
         }
         h1, h2 {
-            color: #fff;
-            margin-bottom: 20px;
+            color: #00000;
+            margin-bottom: 40px;
+            margin-top: 400px;
         }
         .nav-link {
             color: #007BFF;
@@ -121,12 +122,13 @@
             <a href="#" onclick="showHome()">Home</a>
             <a href="#" onclick="loadContent('games')">Games</a>
             <a href="#" onclick="loadContent('apps')">Apps</a>
-            <a href="#" onclick="loadContent('proxy')">Web Restriction Bypasser</a>
+            <a href="#" onclick="loadContent('proxy')">Proxy</a>
             <a href="#" onclick="loadContent('contact')">Contact</a>
         </div>
     </nav>
     <div id="home">
         <h1>🚨  Mullis Math Work  🚨</h1>
+        <p>🚨  Games & Apps not working Currently, If you want proxy click proxy..   🚨</p>
         <p>🍊  The Best in the Industry, Helped from ChillDev.xyz, Szvy, BrunysIXL  🍉</p>
     </div>
     <div id="iframe-container" class="container"></div>
