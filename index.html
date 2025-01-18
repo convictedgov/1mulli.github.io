@@ -3,43 +3,52 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Homework</title>
-    <link href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Google_Classroom_Logo.svg/100px-Google_Classroom_Logo.svg.png" rel="icon" type="image/x-icon">
+    <title>Mullis ExtraMath</title>
+    <link rel="icon" type="image/x-icon" href="https://wallpapers.com/images/hd/mathematics-space-theme-logo-76wefyazr4ip9mh3.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;700&display=swap');
         body, html {
             font-family: 'Albert Sans', sans-serif;
-            background-color: #121212;
+            font-weight: bold;
+            background: linear-gradient(to bottom, #0066cc, #00ccff);
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
             height: 100%;
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #e0e0e0;
         }
         nav {
-            background-color: #1e1e1e;
+            background: linear-gradient(to right, #004080, #0099ff);
             color: #fff;
             width: 90%;
-            padding: 10px 0;
+            padding: 10px;
             position: fixed;
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
+        }
+        nav img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        nav div {
+            display: flex;
+            align-items: center;
         }
         nav a {
             color: #fff;
             text-decoration: none;
             margin: 0 15px;
             padding: 10px 15px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
             border-radius: 5px;
             font-weight: bold;
         }
@@ -47,41 +56,32 @@
             background-color: #333;
         }
         .container {
-            background-color: #1e1e1e;
-            padding: 30px;
+            background: linear-gradient(to bottom, #004080, #0099ff);
             margin: 100px 20px 20px;
-            max-width: 600px;
+            max-width: 6000%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-            box-sizing: border-box;
-            width: 100%;
+            border-radius: 15px;
+            width: 3450%;
+            min-height: 400px;
             flex-grow: 1;
+            display: none;
+            overflow: hidden;
+            position: relative; /* Add position relative for overlaying iframe */
+        }
+        #home {
+            background: linear-gradient(to bottom, #004080, #0099ff);
+            margin: 100px 20px 20px;
+            max-width: 300%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            width: 234%;
+            flex-grow: 1;
+            text-align: center;
+            color: #fff;
         }
         h1, h2 {
             color: #fff;
-            margin: 0 0 20px;
-        }
-        h2 {
-            display: flex;
-            align-items: center;
-        }
-        h2 span {
-            margin-right: 10px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        li {
-            padding: 15px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        li:last-child {
-            border-bottom: none;
+            margin-bottom: 20px;
         }
         .nav-link {
             color: #007BFF;
@@ -90,7 +90,7 @@
             padding: 10px 15px;
             background-color: #333;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
             font-weight: bold;
         }
         .nav-link:hover {
@@ -102,62 +102,81 @@
         }
         iframe {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             border: none;
+            border-radius: 15px;
+            position: absolute; /* Overlay iframe on the container */
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 <body>
     <nav id="navbar">
-        <a href="#">Home</a>
-        <a href="#">Assignments</a>
-        <a href="#">Resources</a>
-        <a href="#">Contact</a>
+        <div>
+            <img src="https://wallpapers.com/images/hd/mathematics-space-theme-logo-76wefyazr4ip9mh3.jpg" alt="Logo">
+            <span>MMW</span>
+        </div>
+        <div>
+            <a href="#" onclick="showHome()">Home</a>
+            <a href="#" onclick="loadContent('games')">Games</a>
+            <a href="#" onclick="loadContent('apps')">Apps</a>
+            <a href="#" onclick="loadContent('proxy')">Web Restriction Bypasser</a>
+            <a href="#" onclick="loadContent('contact')">Contact</a>
+        </div>
     </nav>
-    <div class="container">
-        <h2><span>📚</span> Algebra</h2>
-        <ul>
-            <li>Assignment 1: Algebra Basics <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 2: Linear Equations <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 3: Quadratic Equations <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-        </ul>
-        <h2><span>📐</span> Geometry</h2>
-        <ul>
-            <li>Assignment 4: Geometry Fundamentals <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 5: Triangles and Angles <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 6: Circles and Polygons <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-        </ul>
-        <h2><span>📊</span> Calculus</h2>
-        <ul>
-            <li>Assignment 7: Calculus Introduction <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 8: Derivatives <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 9: Integrals <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-        </ul>
-        <h2><span>📈</span> Probability and Statistics</h2>
-        <ul>
-            <li>Assignment 10: Probability Basics <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 11: Descriptive Statistics <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-            <li>Assignment 12: Inferential Statistics <a class="nav-link" href="#" onclick="loadContent()">Start</a></li>
-        </ul>
+    <div id="home">
+        <h1>🚨  Mullis Math Work  🚨</h1>
+        <p>🍊  The Best in the Industry, Helped from ChillDev.xyz, Szvy, BrunysIXL  🍉</p>
     </div>
+    <div id="iframe-container" class="container"></div>
 
     <script>
-        function loadContent() {
-            const githubRawUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/main.html';
-            fetch(githubRawUrl)
+        function showHome() {
+            document.getElementById('home').style.display = 'block';
+            document.getElementById('iframe-container').style.display = 'none';
+        }
+
+        function loadContent(type) {
+            let contentUrl;
+            switch (type) {
+                case 'games':
+                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/games.html';
+                    break;
+                case 'apps':
+                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/apps.html';
+                    break;
+                case 'proxy':
+                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/main.html';
+                    break;
+                case 'contact':
+                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/contact.html';
+                    break;
+                default:
+                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/main.html';
+            }
+
+            fetch(contentUrl)
                 .then(response => response.text())
                 .then(code => {
                     const iframe = document.createElement('iframe');
                     iframe.srcdoc = code;
-                    document.body.appendChild(iframe);
-                    document.querySelector('.container').style.display = 'none';
-                    document.getElementById('navbar').style.display = 'none';
+                    document.getElementById('iframe-container').innerHTML = ''; // Clear previous content
+                    document.getElementById('iframe-container').appendChild(iframe);
+                    document.getElementById('home').style.display = 'none';
+                    document.getElementById('iframe-container').style.display = 'block';
+
+                    // Hide the home container when not on the home page
+                    document.getElementById('home').style.display = 'none';
                 })
                 .catch(error => {
-                    document.body.innerHTML = '<p>Error loading content. Please try again later.</p>';
+                    document.getElementById('iframe-container').innerHTML = '<p>Error loading content. Please try again later.</p>';
                     console.error('Error fetching content from GitHub:', error);
                 });
         }
+
+        // Initially show the home page
+        showHome();
     </script>
 </body>
 </html>
