@@ -16,7 +16,7 @@
             flex-direction: column;
             font-family: 'Albert Sans', sans-serif;
             font-weight: bold;
-background: linear-gradient(to bottom, #800000, #000000);
+            background: linear-gradient(to bottom, #800000, #000000);
             color: white;
         }
 
@@ -33,7 +33,7 @@ background: linear-gradient(to bottom, #800000, #000000);
             padding: 8px 15px;
             cursor: pointer;
             color: white;
-background: linear-gradient(to bottom, #800000, #000000);
+            background: linear-gradient(to bottom, #800000, #000000);
             border: none;
             border-radius: 10px;
             margin: 5px;
@@ -47,7 +47,7 @@ background: linear-gradient(to bottom, #800000, #000000);
         }
 
         .tab.active {
-background: linear-gradient(to bottom, #800000, #000000);
+            background: linear-gradient(to bottom, #800000, #000000);
             color: white;
         }
 
@@ -64,7 +64,7 @@ background: linear-gradient(to bottom, #800000, #000000);
 
         .new-tab-button {
             padding: 10px;
-background: linear-gradient(to bottom, #800000, #000000);
+            background: linear-gradient(to bottom, #800000, #000000);
             color: white;
             border: none;
             border-radius: 30%;
@@ -79,7 +79,7 @@ background: linear-gradient(to bottom, #800000, #000000);
         }
 
         .new-tab-button:hover {
-background: linear-gradient(to bottom, #800000, #000000);
+            background: linear-gradient(to bottom, #800000, #000000);
         }
 
         .browser-header {
@@ -148,6 +148,110 @@ background: linear-gradient(to bottom, #800000, #000000);
             height: 100%;
             border: none;
         }
+
+        /* Modern History Modal */
+        #historyModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        #historyModalContent {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 50px auto;
+            height: auto;
+            overflow-y: auto;
+        }
+
+        #historyModalContent h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #f4f4f4;
+        }
+
+        #historyModalContent ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+
+        #historyModalContent li {
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 10px;
+            background: #555;
+            border-radius: 10px;
+            transition: background 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #historyModalContent li:hover {
+            background: #777;
+        }
+
+        #historyModalContent li .history-url {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #historyModalContent .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        #historyModalContent .history-actions button {
+            background: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #historyModalContent .history-actions button:hover {
+            background: #d32f2f;
+        }
+
+        #historyModalContent button.clear-history {
+            background: #ff9800;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #historyModalContent button.clear-history:hover {
+            background: #f57c00;
+        }
+
+        #closeHistoryModal {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            margin: 20px auto 0;
+        }
+
     </style>
 </head>
 <body>
@@ -158,20 +262,51 @@ background: linear-gradient(to bottom, #800000, #000000);
         <button class="control-button" onclick="goBack()">⬅</button>
         <button class="control-button" onclick="goForward()">➡</button>
         <button class="control-button" onclick="refreshPage()">↻</button>
+        <button class="control-button" onclick="openHistory()">📜</button> <!-- View History Button -->
         <div class="address-bar">
             <input id="urlInput" class="input-field" type="text" placeholder="Enter the URL here" onkeydown="if (event.key === 'Enter') { navigateToUrl(); }">
         </div>
     </div>
     <div class="iframe-container" id="iframeContainer"></div>
 
+    <!-- History Modal -->
+    <div id="historyModal">
+        <div id="historyModalContent">
+            <h2>History</h2>
+            <ul id="historyList"></ul>
+            <div class="history-actions">
+                <button class="clear-history" onclick="clearHistory()">Clear History</button>
+            </div>
+            <button id="closeHistoryModal" onclick="closeHistory()">Close</button>
+        </div>
+    </div>
+
     <script>
         let tabs = [];
         let activeTab = null;
+        let historyData = {};  // Store history for tabs
+
+        // Helper function to get cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Helper function to set cookies
+        function setCookie(name, value) {
+            document.cookie = `${name}=${value}; path=/; max-age=31536000`;  // 1 year expiration
+        }
+
+        // Helper function to delete cookies
+        function deleteCookie(name) {
+            document.cookie = `${name}=; path=/; max-age=0`;
+        }
 
         function createTab() {
             const iframeId = `iframe${tabs.length}`;
             const tabId = `tab${tabs.length}`;
-
             const tabElement = document.createElement('div');
             tabElement.id = tabId;
             tabElement.className = 'tab';
@@ -185,8 +320,8 @@ background: linear-gradient(to bottom, #800000, #000000);
                 event.stopPropagation();
                 closeTab(tabId, iframeId);
             };
-
             tabElement.appendChild(closeButton);
+
             const newTabButton = document.querySelector('.new-tab-button');
             newTabButton.parentNode.insertBefore(tabElement, newTabButton);
 
@@ -197,6 +332,7 @@ background: linear-gradient(to bottom, #800000, #000000);
             document.getElementById('iframeContainer').appendChild(iframeElement);
 
             tabs.push({ tabId, iframeId });
+            historyData[tabId] = { back: [], forward: [], currentUrl: '' };
             setActiveTab(tabId, iframeId);
         }
 
@@ -214,15 +350,14 @@ background: linear-gradient(to bottom, #800000, #000000);
 
         function navigateToUrl() {
             const input = document.getElementById("urlInput").value.trim();
-            if (!input.startsWith("http://") && !input.startsWith("https://")) {
-                alert("Invalid URL! Please start with 'http://' or 'https://'.");
-                return;
-            }
+            const fullUrl = `https://server-node.rpy.us/embed.html#${input}`;
+
             if (activeTab) {
-                const url = `https://server-node.rpy.us/embed.html#${input}`;
-                document.getElementById(activeTab.iframeId).src = url;
+                document.getElementById(activeTab.iframeId).src = fullUrl;
                 document.getElementById(activeTab.tabId).innerText = input;
                 updateUrlField();
+                addToHistory(input);  // Store the URL after #
+                saveHistoryToCookies(); // Save history to cookies
             }
         }
 
@@ -231,53 +366,104 @@ background: linear-gradient(to bottom, #800000, #000000);
                 const iframe = document.getElementById(activeTab.iframeId);
                 const url = iframe.src.split('#')[1];
                 document.getElementById('urlInput').value = url || iframe.contentWindow.location.href;
-                iframe.onload = () => {
-                    const newUrl = iframe.src.split('#')[1];
-                    document.getElementById('urlInput').value = newUrl || iframe.contentWindow.location.href;
-                };
-                iframe.contentWindow.onhashchange = () => {
-                    const newUrl = iframe.src.split('#')[1];
-                    document.getElementById('urlInput').value = newUrl || iframe.contentWindow.location.href;
-                };
-            }
-        }
-
-        function closeTab(tabId, iframeId) {
-            document.getElementById(tabId).remove();
-            document.getElementById(iframeId).remove();
-            tabs = tabs.filter(tab => tab.tabId !== tabId);
-
-            if (activeTab && activeTab.tabId === tabId) {
-                activeTab = null;
-                if (tabs.length > 0) {
-                    setActiveTab(tabs[0].tabId, tabs[0].iframeId);
-                }
             }
         }
 
         function goBack() {
             if (activeTab) {
-                document.getElementById(activeTab.iframeId).contentWindow.history.back();
-                setTimeout(updateUrlField, 100);
+                const tabHistory = historyData[activeTab.tabId];
+                if (tabHistory.back.length > 0) {
+                    const previousUrl = tabHistory.back.pop();
+                    tabHistory.forward.push(tabHistory.currentUrl);
+                    tabHistory.currentUrl = previousUrl;
+                    document.getElementById(activeTab.iframeId).src = `https://server-node.rpy.us/embed.html#${previousUrl}`;
+                    updateUrlField();
+                    saveHistoryToCookies();
+                }
             }
         }
 
         function goForward() {
             if (activeTab) {
-                document.getElementById(activeTab.iframeId).contentWindow.history.forward();
-                setTimeout(updateUrlField, 100);
+                const tabHistory = historyData[activeTab.tabId];
+                if (tabHistory.forward.length > 0) {
+                    const nextUrl = tabHistory.forward.pop();
+                    tabHistory.back.push(tabHistory.currentUrl);
+                    tabHistory.currentUrl = nextUrl;
+                    document.getElementById(activeTab.iframeId).src = `https://server-node.rpy.us/embed.html#${nextUrl}`;
+                    updateUrlField();
+                    saveHistoryToCookies();
+                }
             }
         }
 
-        function refreshPage() {
+        function addToHistory(url) {
             if (activeTab) {
-                const iframe = document.getElementById(activeTab.iframeId);
-                iframe.src = iframe.src;
-                setTimeout(updateUrlField, 100);
+                const tabHistory = historyData[activeTab.tabId];
+                if (tabHistory.currentUrl !== url) {
+                    tabHistory.back.push(tabHistory.currentUrl);
+                    tabHistory.currentUrl = url;
+                    tabHistory.forward = []; // Clear forward history when new history is added
+                }
             }
         }
 
-        window.onload = createTab;
+        function saveHistoryToCookies() {
+            setCookie('historyData', JSON.stringify(historyData));
+        }
+
+        function loadHistoryFromCookies() {
+            const historyFromCookies = getCookie('historyData');
+            if (historyFromCookies) {
+                historyData = JSON.parse(historyFromCookies);
+            }
+        }
+
+        function openHistory() {
+            const historyModal = document.getElementById("historyModal");
+            const historyList = document.getElementById("historyList");
+            historyList.innerHTML = "";  // Clear previous history entries
+
+            // Populate the history list
+            for (const tabId in historyData) {
+                const tabHistory = historyData[tabId];
+                const historyItem = document.createElement("li");
+                historyItem.className = "history-item";
+                historyItem.innerHTML = `<span class="history-url">${tabHistory.currentUrl}</span>`;
+
+                // Add event listener to go to the selected history URL
+                historyItem.onclick = function () {
+                    const url = tabHistory.currentUrl;
+                    document.getElementById(activeTab.iframeId).src = `https://server-node.rpy.us/embed.html#${url}`;
+                    document.getElementById(activeTab.tabId).innerText = url;
+                    updateUrlField();
+                    closeHistory();
+                };
+
+                historyList.appendChild(historyItem);
+            }
+
+            historyModal.style.display = "block";
+        }
+
+        function closeHistory() {
+            document.getElementById("historyModal").style.display = "none";
+        }
+
+        function clearHistory() {
+            if (confirm("Are you sure you want to clear the browsing history?")) {
+                historyData = {};  // Clear all history data
+                saveHistoryToCookies();  // Save the empty history
+                alert("History cleared.");
+                closeHistory();  // Close the history modal
+            }
+        }
+
+        window.onload = function () {
+            createTab();
+            loadHistoryFromCookies();  // Load history on page load
+        };
+
     </script>
 </body>
 </html>
