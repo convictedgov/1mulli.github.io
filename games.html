@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buzzem Game Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #EDEDED;
+      overflow-x: hidden;
+    }
+
+    /* Loading Screen */
+    #startupScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1d1d1d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      color: #fff;
+      font-size: 24px;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+
+    .loading-text {
+      font-size: 36px;
+      font-weight: 600;
+      animation: typing 2s steps(40) 1s normal both, blink 0.75s step-end infinite;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #333;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .brand {
+      font-size: 24px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .navbar input {
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+      transition: 0.3s ease;
+    }
+
+    .navbar input:focus {
+      background-color: #444;
+    }
+
+    .navbar button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+
+    .navbar button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Main Content */
+    #mainContent {
+      display: none;
+      padding: 30px;
+      transition: opacity 1s ease;
+    }
+
+    /* Game Cards */
+    .game-card {
+      background-color: #1a1a1a;
+      border-radius: 15px;
+      margin: 20px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .game-card .card-body {
+      padding: 20px;
+      background-color: #333;
+    }
+
+    .game-card .card-body h5 {
+      font-size: 1.4em;
+      color: #fff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .game-card .card-body p {
+      color: #bbb;
+      font-size: 1em;
+      margin: 0;
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+      .navbar input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .game-card {
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      .game-card img {
+        height: 150px;
+      }
+    }
+
+    /* Iframe Modal */
+    #iframeContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #gameIframe {
+      width: 80%;
+      height: 80%;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .close-iframe-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #ff3b3b;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-iframe-btn:hover {
+      background-color: #ff1c1c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="startupScreen">
+    <div class="loading-text">Loading Buzzem Game Hub...</div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent">
+    <div class="navbar">
+      <div class="brand">Buzzem</div>
+      <input type="text" id="searchBar" placeholder="Search for games..." />
+      <button id="themeToggle">Toggle Theme</button>
+    </div>
+
+    <div id="gameList" class="d-flex flex-wrap justify-content-center">
+      <!-- Game Cards will be inserted dynamically -->
+    </div>
+  </div>
+
+  <!-- Iframe Popup -->
+  <div id="iframeContainer">
+    <button class="close-iframe-btn" id="closeIframe">Close</button>
+    <iframe id="gameIframe"></iframe>
+  </div>
+
+  <script>
+    const games = [
+      { id: "007", title: "007 - Everything or Nothing", genre: "Action", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/c1544963-d870-4d90-93bd-d3e7d1fba3a3.image.png?v=1737418735013", url: "https://bobzgames.github.io/GBA/launcher.html#007" },
+      { id: "1.8.8-wasm", title: "Minecraft 1.8.8 (PC)", genre: "Adventure", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/97c9944e-6613-46dc-b3d0-c11f4fec147f.image.png?v=1737445843304", url: "https://eaglercraft.com/mc/1.8.8-wasm/" },
+      { id: "Sbio", title: "SnowBattle.io", genre: "Action", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/ac4b771b-ab1f-49a5-9207-58711055dfd9.image.png?v=1737487092628", url: "https://max.wr.do/go?id=8091" },
+      { id: "B&F", title: "Burger & Frights", genre: "Horror", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/c4d846f3-036f-45b8-b3ad-ee54284bb920.image.png?v=1737499875691", url: "https://o.gamerdam.com/bs/bad-parenting/" },
+      { id: "closingd", title: "Closing Doors", genre: "Horror", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/c3297347-42c1-4f8c-9530-5987fd3857e9.image.png?v=1737500649798", url: "https://o.gamerdam.com/ho/neighbour-next-door/" },
+      { id: "dsm", title: "Dude Simulator: Mayor", genre: "Simulation", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/ac22eb37-b211-44a8-8070-551bc3bc8cbf.image.png?v=1737498762842", url: "https://www.gamenora.com/splash/dude-simulator-mayor/" },
+      { id: "dkc2", title: "Donkey Kong Country 2", genre: "Adventure", thumbnail: "https://cdn.glitch.global/a7b27f3d-df32-4db7-abff-249d6bdaa315/b988d4c8-edff-4aac-89bb-ab850e51f781.image.png?v=1737419710013", url: "https://bobzgames.github.io/GBA/launcher.html#dkc2" }
+    ];
+
+    function startupSequence() {
+      const startupScreen = document.getElementById("startupScreen");
+      const mainContent = document.getElementById("mainContent");
+      
+      setTimeout(() => {
+        startupScreen.style.display = "none";
+        mainContent.style.display = "block";
+      }, 3000);
+    }
+
+    function renderGames(gameList = games) {
+      const gameListContainer = document.getElementById("gameList");
+      gameListContainer.innerHTML = gameList.map(game =>
+        `<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="game-card" data-url="${game.url}">
+            <img src="${game.thumbnail}" alt="${game.title}" />
+            <div class="card-body">
+              <h5>${game.title}</h5>
+              <p>Genre: ${game.genre}</p>
+            </div>
+          </div>
+        </div>`).join("");
+
+      document.querySelectorAll(".game-card").forEach(card => {
+        card.addEventListener("click", () => openGame(card.dataset.url));
+      });
+    }
+
+    function openGame(url) {
+      const iframeContainer = document.getElementById("iframeContainer");
+      const gameIframe = document.getElementById("gameIframe");
+      gameIframe.src = url;
+      iframeContainer.style.display = "flex";
+    }
+
+    function closeGame() {
+      const iframeContainer = document.getElementById("iframeContainer");
+      const gameIframe = document.getElementById("gameIframe");
+      gameIframe.src = "";
+      iframeContainer.style.display = "none";
+    }
+
+    document.getElementById("closeIframe").addEventListener("click", closeGame);
+    document.getElementById("themeToggle").addEventListener("click", () => document.body.classList.toggle("theme-dark"));
+    document.getElementById("searchBar").addEventListener("input", searchGames);
+
+    function searchGames() {
+      const query = document.getElementById("searchBar").value.toLowerCase();
+      const filteredGames = games.filter(game => game.title.toLowerCase().includes(query));
+      renderGames(filteredGames);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      startupSequence();
+      renderGames();
+    });
+  </script>
+</body>
+</html>
