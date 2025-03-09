@@ -1,184 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mullis ExtraMath</title>
-    <link rel="icon" type="image/x-icon" href="https://wallpapers.com/images/hd/mathematics-space-theme-logo-76wefyazr4ip9mh3.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@700&display=swap" rel="stylesheet">
+    <title>intercom</title>
     <style>
-        body, html {
-            font-family: 'Albert Sans', sans-serif;
-            font-weight: bold;
-            background: linear-gradient(to bottom, #000000, #000000); /* Changed gradient to dark red and black */
-            color: #e0e0e0;
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-        nav {
-            background: linear-gradient(to right, #000000, #000000); /* Changed gradient to dark red and black */
-            color: #fff;
-            width: 90%;
-            padding: 10px;
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
+
+        h1 {
+            font-size: 24px;
+            color: #b8b8b8;
+            margin-bottom: 20px;
+        }
+
+        .call-container {
+            background: #2;
+            border-radius: 45px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             display: flex;
-            justify-content: space-between;
+            gap: 20px;
             align-items: center;
-            box-shadow: 0 22px 22px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
+            justify-content: center;
         }
-        nav img {
-            height: 40px;
-            margin-right: 20px;
-        }
-        nav div {
-            display: flex;
-            align-items: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 10px 15px;
-            transition: background-color 0.3s;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            background-color: #333;
-        }
-        .container {
-            background: linear-gradient(to bottom, #0000000, #000000); /* Changed gradient to dark red and black */
-            margin: 100px 20px 20px;
-            max-width: 6000%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            width: 3450%;
-            min-height: 400px;
-            flex-grow: 1;
-            display: none;
-            overflow: hidden;
-            position: relative; /* Add position relative for overlaying iframe */
-        }
-        #home {
-            background: linear-gradient(to bottom, #0000000, #000000); /* Changed gradient to dark red and black */
-            margin: 100px 20px 20px;
-            max-width: 300%;
-            box-shadow: 0 px px rgba(0, 0, 0, 0.5);
-            border-radius: 25px;
-            width: 234%;
-            flex-grow: 1;
-            text-align: center;
-            color: #fff;
-        }
-        h1, h2 {
-            color: #00000;
-            margin-bottom: 40px;
-            margin-top: 400px;
-        }
-        .nav-link {
-            color: #007BFF;
-            text-decoration: none;
-            cursor: pointer;
-            padding: 10px 15px;
-            background-color: #333;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            font-weight: bold;
-        }
-        .nav-link:hover {
-            background-color: #007BFF;
-            color: #fff;
-        }
-        .nav-link:active {
-            background-color: #0056b3;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
+
+        .button {
+            width: 70px;
+            height: 70px;
+            background: #374f43;
             border: none;
-            border-radius: 15px;
-            position: absolute; /* Overlay iframe on the container */
-            top: 0;
-            left: 0;
+            border-radius: 9%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .button img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .button:hover {
+            background: #374f43;
+            transform: scale(1.1);
+        }
+
+        .button.active {
+            background: #0078d4;
+        }
+
+        .button.red {
+            background: #e9344a;
+        }
+
+        .button.red:hover {
+            background: #c9302c;
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #b8b8b8;
         }
     </style>
 </head>
 <body>
-    <nav id="navbar">
-        <div>
-            <img src="https://media.discordapp.net/attachments/1329272750962905128/1337283555490795550/Screenshot_2025-02-06_234228.png?ex=67a8dc1d&is=67a78a9d&hm=08e5fd561e6d1d093cd35b747b36cf905923a5ed17edea1b788a397e70a09594&=" alt="Logo">
-            <span>Buzzem</span>
-        </div>
-        <div>
-            <a href="#" onclick="showHome()">Home</a>
-            <a href="#" onclick="loadContent('games')">Games</a>
-            <a href="#" onclick="loadContent('apps')">Apps</a>
-            <a href="#" onclick="loadContent('proxy')">Proxy</a>
-            <a href="#" onclick="loadContent('contact')">Contact</a>
-        </div>
-    </nav>
-    <div id="home">
-        <h1>Buzzem Gaming</h1>
-        <p>Working on tons!</p>
-        <p>Helped from Buzzhost!</p>
+    <h1></h1>
+
+    <div class="call-container">
+        <button class="button" id="mic-button" onclick="toggleMicAndSpeakers()">
+            <img src="https://png.pngtree.com/png-clipart/20210311/original/pngtree-microphone-clip-art-during-broadcast-png-image_6022461.png" alt="Mic On">
+        </button>
+        <button class="button" onclick="toggleHold()">
+            <img src="https://static.vecteezy.com/system/resources/previews/018/251/091/non_2x/multimedia-pause-button-icon-on-transparent-background-free-png.png" alt="Hold">
+        </button>
+        <button class="button red" onclick="endCall()">
+            <img src="https://static.thenounproject.com/png/2515363-200.png" alt="End Call">
+        </button>
     </div>
-    <div id="iframe-container" class="container"></div>
+
+    <div class="status" id="status-text"></div>
 
     <script>
-        function showHome() {
-            document.getElementById('home').style.display = 'block';
-            document.getElementById('iframe-container').style.display = 'none';
+        let audioContext;
+        let mediaStreamSource;
+        let holdAudio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); // High-quality hold music
+        let isMicrophonePaused = false;
+        let isMicActive = false; // Track if the microphone is active or not
+
+        // Helper function to speak text out loud
+        function textToSpeech(message) {
+            const utterance = new SpeechSynthesisUtterance(message);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            speechSynthesis.speak(utterance);
         }
 
-        function loadContent(type) {
-            let contentUrl;
-            switch (type) {
-                case 'games':
-                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/games.html';
-                    break;
-                case 'apps':
-                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/apps.html';
-                    break;
-                case 'proxy':
-                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/main.html';
-                    break;
-                case 'contact':
-                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/contact.html';
-                    break;
-                default:
-                    contentUrl = 'https://raw.githubusercontent.com/1mulli/1mulli.github.io/main/main.html';
-            }
+        // Start microphone and output audio to speakers
+        function startMicAndSpeakers() {
+            if (isMicrophonePaused) return; // Don't start microphone if paused
 
-            fetch(contentUrl)
-                .then(response => response.text())
-                .then(code => {
-                    const iframe = document.createElement('iframe');
-                    iframe.srcdoc = code;
-                    document.getElementById('iframe-container').innerHTML = ''; // Clear previous content
-                    document.getElementById('iframe-container').appendChild(iframe);
-                    document.getElementById('home').style.display = 'none';
-                    document.getElementById('iframe-container').style.display = 'block';
+            if (isMicActive) return; // Don't start it again if already active
 
-                    // Hide the home container when not on the home page
-                    document.getElementById('home').style.display = 'none';
+            // Create new AudioContext
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaStreamSource = audioContext.createMediaStreamSource(stream);
+                    const audioOutput = audioContext.createGain();
+                    mediaStreamSource.connect(audioOutput);
+                    audioOutput.connect(audioContext.destination); // Output to speakers
+
+                    isMicActive = true; // Set the mic as active
                 })
-                .catch(error => {
-                    document.getElementById('iframe-container').innerHTML = '<p>Error loading content. Please try again later.</p>';
-                    console.error('Error fetching content from GitHub:', error);
-                });
+                .catch(err => console.error('Error accessing microphone: ' + err));
         }
 
-        // Initially show the home page
-        showHome();
+        // Stop the microphone and stop output to speakers
+        function stopMicAndSpeakers() {
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+                if (mediaStreamSource) {
+                    mediaStreamSource.disconnect();
+                }
+                isMicActive = false; // Set the mic as inactive
+            }
+        }
+
+        // Toggle mic and speakers on/off
+        function toggleMicAndSpeakers() {
+            const button = document.getElementById('mic-button');
+            if (button.classList.contains('active')) {
+                stopMicAndSpeakers();
+                button.classList.remove('active');
+            } else {
+                startMicAndSpeakers();
+                button.classList.add('active');
+            }
+        }
+
+        // Handle "Hold" button logic
+        function toggleHold() {
+            const button = document.querySelector('.button:nth-child(2)');
+            if (button.classList.contains('active')) {
+                stopHold();
+                button.classList.remove('active');
+            } else {
+                startHold();
+                button.classList.add('active');
+            }
+        }
+
+        // Start hold music and periodic message
+        function startHold() {
+            document.getElementById('status-text').textContent = "We've placed you on hold...";
+            holdAudio.loop = true;
+            holdAudio.play();
+            setInterval(() => {
+                textToSpeech("We've placed you on hold.");
+            }, 10000);
+        }
+
+        // Stop hold music and reset message
+        function stopHold() {
+            document.getElementById('status-text').textContent = "";
+            holdAudio.pause();
+            holdAudio.currentTime = 0;
+        }
+
+        // Announce incoming call after 3 seconds
+        function announceIncomingCall() {
+            setTimeout(() => {
+                textToSpeech("Incoming Intercom Call from Localhost on port 488");
+            }, 3000);
+        }
+
+        // End the call
+        function endCall() {
+            textToSpeech("Intercom Disconnected");
+            setTimeout(() => {
+                window.close();
+            }, 3000);
+        }
+
+        // Start recognition when the page is ready
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+
+        recognition.onstart = function () {
+            console.log("Voice recognition started");
+        };
+
+        recognition.onerror = function (event) {
+            console.error("Voice recognition error: " + event.error);
+        };
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+
+            console.log("You said: " + transcript);
+
+            if (transcript.includes("hold")) {
+                toggleHold();
+            } else if (transcript.includes("continue")) {
+                stopHold();
+                document.getElementById('status-text').textContent = "";
+            } else if (transcript.includes("pause")) {
+                stopMicAndSpeakers();
+                document.getElementById('status-text').textContent = "";
+                isMicrophonePaused = true;
+            } else if (transcript.includes("unpause")) {
+                startMicAndSpeakers();
+                document.getElementById('status-text').textContent = "";
+                isMicrophonePaused = false;
+            } else if (transcript.includes("speak")) {
+                startMicAndSpeakers(); // Start microphone and output to speakers
+                textToSpeech("Hello! I am speaking now!");
+            }
+        };
+
+        // Start voice recognition on load
+        recognition.start();
+
+        // Announce the incoming call 3 seconds after the page loads
+        window.onload = announceIncomingCall;
     </script>
 </body>
 </html>
