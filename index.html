@@ -2,277 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>darkbin</title>
-
-    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <title>Contact Info</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap");
-
-        * {
-          font-family: "VCR OSD Mono", sans-serif;
-          color: white;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
         body {
-          margin: 0;
-          padding: 0;
-          height: 100%;
+            background: url('https://i.pinimg.com/originals/a5/00/ce/a500cea59963d3187152da4b1b5d2981.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            cursor: none;
         }
 
-        .wallpaper {
-          background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.9)),
-            url(https://files.catbox.moe/7tvpyj.gif);
-          background-size: cover;
-          background-position: center;
-          height: 100vh;
         }
-
-        pre {
-          color: #fff;
-          overflow-x: hidden;
-          overflow-y: hidden;
-          border: none;
-          font-size: 10px;
-        }
-
-        .center-screen {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-        }
-
-        .box-brrr {
-          width: calc(47% - 10px);
-          border-radius: 2px;
-          background-color: transparent;
-          padding: 20px;
-          display: block;
-          box-sizing: border-box;
-          margin: 0 5px;
-        }
-
-        .box-contain {
-          display: flex;
-          margin-top: 1em;
-          width: 500px;
-          text-align: center;
-          justify-content: center;
-        }
-
-        .pfp {
-          width: 170px;
-          height: auto;
-          border-radius: 50%;
-          margin-left: 10px;
-        }
-
-        .text {
-          margin-top: 30px;
-          text-decoration: none;
-          color: #dddddd;
-          text-align: center;
-          font-size: 12px;
-        }
-
-        .click {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100vh;
-          background-color: rgba(0, 0, 0, 1);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 24px;
-          color: #fff;
-          cursor: pointer;
-        }
-
-        .fade-out {
-          animation: fadeOut 1s;
-          -webkit-animation: fadeOut 1s;
-          -moz-animation: fadeOut 1s;
-          -o-animation: fadeOut 1s;
-          -ms-animation: fadeOut 1s;
+        .trail {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(0, 170, 255, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px #0055ff;
+            animation: fadeOut 0.5s ease-out forwards;
         }
 
         @keyframes fadeOut {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.5); }
         }
 
-        @-moz-keyframes fadeOut {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-
-        @-webkit-keyframes fadeOut {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-
-        @-o-keyframes fadeOut {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-
-        @-ms-keyframes fadeOut {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-
-        .fade-in-image {
-          animation: fadeIn 3s;
-          -webkit-animation: fadeIn 3s;
-          -moz-animation: fadeIn 3s;
-          -o-animation: fadeIn 3s;
-          -ms-animation: fadeIn 3s;
-        }
-
-        @keyframes fadeIn {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @-moz-keyframes fadeIn {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @-webkit-keyframes fadeIn {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @-o-keyframes fadeIn {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @-ms-keyframes fadeIn {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-
-        @media (max-width: 600px) {
-          html,
-          body {
-            overflow-x: hidden;
-          }
-          .intial-container {
-            margin-top: 1200px;
-          }
-          .box-contain {
-            flex-direction: column;
+        .username {
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 12px;
+            display: flex;
             align-items: center;
-          }
-          .box-brrr {
-            max-width: 400px;
-          }
-          .box-brrr2 {
-            max-width: 400px;
-          }
-          pre {
-            font-size: 14px;
-            overflow-y: auto;
-          }
-          .text {
-            font-size: 8px;
-            margin-bottom: 150px;
-          }
+            justify-content: space-between;
+            font-size: 1.2em;
+            font-weight: 500;
+            background: transparent;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, background 0.3s;
+        }
+        .username:hover {
+            transform: scale(1.05);
+            background: rgba(0, 170, 255, 0.1);
+        }
+        .username i {
+            color: #333;
+            font-size: 1.5em;
         }
     </style>
 </head>
-<body class="center-screen wallpaper">
-    <div class="click">
-        <h1>enter</h1>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div>
+        <div class="username" onclick="copyText('ussrincident')"><i class="fa-brands fa-discord"></i> <span>ussrincident</span></div>
+        <div class="username" onclick="copyText('ussrincident')"><i class="fa-brands fa-telegram"></i> <span>ussrincident</span></div>
+        <div class="username" onclick="copyText('internet.09')"><i class="fa-solid fa-signal"></i> <span>internet.09</span></div>
+        <div class="username" onclick="copyText('@ussrincident:matrix.org')"><i class="fa-solid fa-matrix-org"></i> <span>ussrincident:matrix.org</span></div>
     </div>
-    <pre>
-                
-                                   
-  ____  ______ ____ _____ _______ 
- /  _ \/  ___// ___\\__  \\_  __ \
-(  <_> )___ \\  \___ / __ \|  | \/
- \____/____  >\___  >____  /__|   
-           \/     \/     \/       
-    </pre>
-  <div class="entered">
-    <div class="intial-container">
-    <div class="box-contain">
-      <div class="box-brrr">
-        <img src="https://files.catbox.moe/unc21y.webp" class="pfp" alt="oscar"/>
-        <h3><span style="color: red;">• </span>oscar</h3>
-        <p>commander @112 & admin @/puke</p>
-        <p style="font-size:14px;">-- Reach Me At --</p>
-        <a href="https://t.me/cleantheinternet" target="_blank" rel="noopener noreferrer"><img src="https://files.catbox.moe/dqh61z.png" alt="telegram" height="45px"></a>
-        <a href="<https://discord.com/users/1347734252388745238" target="_blank" rel="noopener noreferrer"><img src="https://files.catbox.moe/hbvbti.png" height="45px" alt="discord" height="07px"></a>
-        <a href="https://1mulli.github.io/pgp.asc" target="_blank" rel="noopener noreferrer"><img src="        https://files.catbox.moe/e8t7xa.png" alt="pgp" height="45px"></a>
-            <div class="text">©2025, 
-            oscar, All Rights Reserved
-        </div>
-    </div>
-</div>
-</div>
-<audio loop>
-    <source src="https://files.catbox.moe/s3r15y.mp3" type="audio/mpeg">
-</audio>
-<script>
-    const clickDiv = document.querySelector('.click');
-    const audio = document.querySelector('audio');
 
-    clickDiv.addEventListener('click', () => {
-        audio.volume = 0.21; // loud asf
-        audio.play();
-        clickDiv.classList.add('fade-out');
-        clickDiv.addEventListener('animationend', () => {
-            clickDiv.style.display = 'none';
+    <script>
+        document.addEventListener("mousemove", (e) => {
+            const cursor = document.getElementById("cursor");
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            
+            const trail = document.createElement("div");
+            trail.className = "trail";
+            document.body.appendChild(trail);
+            trail.style.left = `${e.clientX}px`;
+            trail.style.top = `${e.clientY}px`;
+            setTimeout(() => trail.remove(), 500);
         });
-    });
-</script>
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Copied: ${text}`);
+            });
+        }
+    </script>
 </body>
 </html>
